@@ -41,9 +41,7 @@ class MoviesViewController: UIViewController {
         tableView.separatorColor = .clear;
         tableView.register(UINib(nibName: "MovieTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellReuseId)
         
-        self.genresViewModel.fetchGenres() {
-            self.tableView.reloadData()
-        }
+        self.genresViewModel.fetchGenres() {}
         
         self.moviesViewModel.fetchMovies() {
             self.tableView.reloadData()
