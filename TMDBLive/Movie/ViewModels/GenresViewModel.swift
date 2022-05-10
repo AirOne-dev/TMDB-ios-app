@@ -15,7 +15,7 @@ class GenresViewModel: ObservableObject {
     private var task: AnyCancellable?
     
     private var tryFetchGenres: Int = 0
-    func fetchGenres() {
+    func fetchGenres(completion: @escaping () -> ()) {
         task = URLSession.shared.dataTaskPublisher(for: URL(string: ApiViewModel.genreUrl)!)
             .map { return $0.data; }
             .decode(type: GenreResponse.self, decoder: JSONDecoder())
@@ -27,10 +27,14 @@ class GenresViewModel: ObservableObject {
                 if($0.isEmpty && self.tryFetchGenres < 3) {
                     self.task?.cancel()
                     self.tryFetchGenres += 1
-                    self.fetchGenres()
+                    self.fetchGenres() {
+                        
+                    }
                     return
                 } else {
                     self.genres = $0
+                    completion()
+
                 }
             }
     }

@@ -19,10 +19,8 @@ class MoviesViewController: UIViewController {
     init(moviesViewModel: MoviesViewModel, genresViewModel: GenresViewModel) {
         
         self.genresViewModel = genresViewModel;
-        self.genresViewModel.fetchGenres();
-        
         self.moviesViewModel = moviesViewModel;
-        self.moviesViewModel.fetchMovies();
+
         
         super.init(nibName: "MoviesViewController", bundle: Bundle.main)
     }
@@ -42,6 +40,15 @@ class MoviesViewController: UIViewController {
         
         tableView.separatorColor = .clear;
         tableView.register(UINib(nibName: "MovieTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellReuseId)
+        
+        self.genresViewModel.fetchGenres() {
+            self.tableView.reloadData()
+        }
+        
+        self.moviesViewModel.fetchMovies() {
+            self.tableView.reloadData()
+            print(self.moviesViewModel.movies);
+        }
     }
 
 
@@ -66,10 +73,10 @@ extension MoviesViewController: UITableViewDataSource {
         if let cell = (tableView.dequeueReusableCell(withIdentifier: cellReuseId) as? MovieTableViewCell) {
             
             cell.setupCell(
-                title: moviesViewModel.movies[indexPath.item].title,
-                subtitle: moviesViewModel.movies[indexPath.item].overview,
-                imageURL: ApiViewModel.apiImgDomain + moviesViewModel.movies[indexPath.item].poster_path,
-                duration: moviesViewModel.movies[indexPath.item].release_date
+                title: moviesViewModel.movies[indexPath.item].title ?? "",
+                subtitle: moviesViewModel.movies[indexPath.item].overview ?? "",
+                imageURL: ApiViewModel.apiImgDomain + (moviesViewModel.movies[indexPath.item].poster_path ?? ""),
+                duration: moviesViewModel.movies[indexPath.item].release_date ?? ""
             )
             return cell;
         }
@@ -86,13 +93,13 @@ extension MoviesViewController: UITableViewDelegate {
         let index = indexPath.row;
         
         let hostVC = UIHostingController(rootView: MovieDetailsView(
-            title: moviesViewModel.movies[index].title,
-            length: moviesViewModel.movies[index].release_date,
-            tags: moviesViewModel.movies[index].genre_ids,
-            description: moviesViewModel.movies[index].overview,
-            notation: Float(moviesViewModel.movies[index].vote_average),
-            imageURL: ApiViewModel.apiImgDomain + moviesViewModel.movies[index].poster_path,
-            trailerURL: String(moviesViewModel.movies[index].video),
+            title: moviesViewModel.movies[index].title ?? "",
+            length: moviesViewModel.movies[index].release_date ?? "",
+            tags: moviesViewModel.movies[index].genre_ids ?? [0],
+            description: moviesViewModel.movies[index].overview ?? "",
+            notation: Float(moviesViewModel.movies[index].vote_average ?? 0),
+            imageURL: ApiViewModel.apiImgDomain + (moviesViewModel.movies[index].poster_path ?? "") ,
+            trailerURL: String(moviesViewModel.movies[index].video ?? false),
             moviesViewModel: moviesViewModel,
             genresViewModel: genresViewModel
         ));
