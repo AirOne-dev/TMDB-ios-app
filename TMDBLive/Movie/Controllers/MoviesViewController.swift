@@ -45,7 +45,6 @@ class MoviesViewController: UIViewController {
         
         self.moviesViewModel.fetchMovies() {
             self.tableView.reloadData()
-            print(self.moviesViewModel.movies);
         }
     }
 
@@ -87,22 +86,25 @@ extension MoviesViewController: UITableViewDataSource {
 extension MoviesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("row: \(indexPath.row)")
         let index = indexPath.row;
         
-        let hostVC = UIHostingController(rootView: MovieDetailsView(
-            title: moviesViewModel.movies[index].title ?? "",
-            length: moviesViewModel.movies[index].release_date ?? "",
-            tags: moviesViewModel.movies[index].genre_ids ?? [0],
-            description: moviesViewModel.movies[index].overview ?? "",
-            notation: Float(moviesViewModel.movies[index].vote_average ?? 0),
-            imageURL: ApiViewModel.apiImgDomain + (moviesViewModel.movies[index].poster_path ?? "") ,
-            trailerURL: String(moviesViewModel.movies[index].video ?? false),
-            moviesViewModel: moviesViewModel,
-            genresViewModel: genresViewModel
-        ));
+        let videosViewModel: VideosViewModel = VideosViewModel();
         
-        present(hostVC, animated: true);
+        // Quand on clique sur un film, fait une requête pour trouver l'url de son trailer
+        videosViewModel.fetchVideos(movie_id: moviesViewModel.movies[index].id ?? 0) { [self] in
+            let hostVC = UIHostingController(rootView: MovieDetailsView(
+                title: moviesViewModel.movies[index].title ?? "",
+                length: moviesViewModel.movies[index].release_date ?? "",
+                tags: moviesViewModel.movies[index].genre_ids ?? [0],
+                description: moviesViewModel.movies[index].overview ?? "",
+                notation: Float(moviesViewModel.movies[index].vote_average ?? 0),
+                imageURL: ApiViewModel.apiImgDomain + (moviesViewModel.movies[index].poster_path ?? "") ,
+                trailerURL: "https://youtu.be/" + videosViewModel.videos[0].key,
+                moviesViewModel: moviesViewModel,
+                genresViewModel: genresViewModel
+            ));
+            present(hostVC, animated: true);
+        }
         
 //        navigationController?.pushViewController(hostVC, animated: true);
     }

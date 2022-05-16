@@ -11,6 +11,7 @@ var gd = Gradient(colors: [Color.primary, Color.primary, Color.black, Color(.sRG
 var lg = LinearGradient(gradient: gd, startPoint: .bottom, endPoint: .top);
 var lg_inv = LinearGradient(gradient: gd, startPoint: .top, endPoint: .bottom);
 
+
 struct MovieDetailsView: View {
     let title: String;
     let length: String;
@@ -44,7 +45,6 @@ struct MovieDetailsView: View {
                                     HStack {
                                         Button(action: {
                                             ApiViewModel.webView?.evaluateJavaScript("writeEmbed();");
-                                            //UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
                                         }) {
                                             HStack {
                                                 Image(systemName: "play.fill")
@@ -93,24 +93,6 @@ struct MovieDetailsView: View {
                                     .mask(lg), alignment: .center)
                             }
                             .frame(height: geo.size.height)
-//                            .offset(y: (offset >= 0.5) ? -0.5*750 + offset*750 : 0)
-//                            .opacity((offset >= 0.5) ? 1+(0.5*2) - (offset*2) : 1)
-//                            VStack {
-//                                
-//                                
-//                            }
-//                            .frame(width: geo.size.width, height: (geo.size.height/2))
-//                            .background(VisualEffectView(style: .systemChromeMaterialDark))
-                        }
-//                        .background(GeometryReader { g2 in
-//                            Color.clear.preference(
-//                                key: ViewOffsetKey.self,
-//                                value:
-//                                    -g2.frame(in: .global).origin.y / geo.size.height)
-//                        })
-//                        .onPreferenceChange(ViewOffsetKey.self) {
-//                            offset = $0;
-//                        }
                     }
                 }
                 VStack(spacing: 0) {
@@ -171,4 +153,5 @@ struct MovieDetailsView_Previews: PreviewProvider {
             genresViewModel: GenresViewModel()
         )
     }
+}
 }
