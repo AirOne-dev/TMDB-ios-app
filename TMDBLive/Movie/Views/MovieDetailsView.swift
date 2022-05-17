@@ -24,6 +24,7 @@ struct MovieDetailsView: View {
     let genresViewModel: GenresViewModel;
     
     @State private var offset = 0.0
+    @State private var videoLoading = false
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -44,11 +45,16 @@ struct MovieDetailsView: View {
                                 VStack(spacing: 16) {
                                     HStack {
                                         Button(action: {
+                                            self.videoLoading = true;
                                             ApiViewModel.webView?.evaluateJavaScript("writeEmbed();");
                                         }) {
                                             HStack {
-                                                Image(systemName: "play.fill")
-                                                Text("Bande Annonce")
+                                                if(!self.videoLoading) {
+                                                    Image(systemName: "play.fill")
+                                                    Text("Bande Annonce")
+                                                } else {
+                                                    Text("Chargement...")
+                                                }
                                             }
                                             .font(Font.system(.title3, design: .default).weight(.semibold))
                                             .padding(.vertical, 15)
