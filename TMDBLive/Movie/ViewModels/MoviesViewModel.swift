@@ -28,8 +28,7 @@ class MoviesViewModel: ObservableObject {
                 if($0.isEmpty && self.tryFetchMovies < 3) {
                     self.task?.cancel()
                     self.tryFetchMovies += 1
-                    self.fetchMovies(page: page) {
-                    }
+                    self.fetchMovies(page: page) {}
                     return
                 } else {
                     self.movies = $0

@@ -46,7 +46,18 @@ struct MovieDetailsView: View {
                                     HStack {
                                         Button(action: {
                                             self.videoLoading = true;
+                                            
+                                            // Execute un javascript sur la webview qui lance la vidéo youtube, grâce au fonctionnement des webview d'ios, la vidéo se lance en fullscreen
                                             ApiViewModel.webView?.evaluateJavaScript("writeEmbed();");
+                                            
+                                            // Ajoute un observer, qui se déclenche lorsque la video de la webview entre en fullscreen, et permet de remettre videoLoading à false, et donc cacher le texte "Chargement..." sur le bouton
+                                            NotificationCenter.default.addObserver(
+                                                forName: UIWindow.didResignKeyNotification,
+                                                object: ApiViewModel.webView?.window,
+                                                queue: nil
+                                            ) { notification in
+                                                self.videoLoading = false;
+                                            }
                                         }) {
                                             HStack {
                                                 if(!self.videoLoading) {

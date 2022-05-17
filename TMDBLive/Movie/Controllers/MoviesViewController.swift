@@ -15,6 +15,8 @@ class MoviesViewController: UIViewController {
     
     let moviesViewModel: MoviesViewModel
     let genresViewModel: GenresViewModel
+    var page = 1;
+    var is_loading = true;
     
     init(moviesViewModel: MoviesViewModel, genresViewModel: GenresViewModel) {
         
@@ -43,8 +45,9 @@ class MoviesViewController: UIViewController {
         
         self.genresViewModel.fetchGenres() {}
         
-        self.moviesViewModel.fetchMovies() {
+        self.moviesViewModel.fetchMovies(page: self.page) {
             self.tableView.reloadData()
+            self.is_loading = false;
         }
     }
 
@@ -90,7 +93,15 @@ extension MoviesViewController: UITableViewDelegate {
         
         let videosViewModel: VideosViewModel = VideosViewModel();
         
-        // Quand on clique sur un film, fait une requête pour trouver l'url de son trailer
+        
+        // Créer une vue avec un loader pour voir visuellement qu'il y a une requête
+        let loadingVC = LoadingViewController()
+        loadingVC.modalPresentationStyle = .overCurrentContext
+        loadingVC.modalTransitionStyle = .crossDissolve
+        present(loadingVC, animated: true, completion: nil)
+        
+        // Quand on clique sur un film, fait une requête pour trouver l'url de son trailer, puis "présente" le film
+        
         videosViewModel.fetchVideos(movie_id: moviesViewModel.movies[index].id ?? 0) { [self] in
             let hostVC = UIHostingController(rootView: MovieDetailsView(
                 title: moviesViewModel.movies[index].title ?? "",
@@ -103,9 +114,31 @@ extension MoviesViewController: UITableViewDelegate {
                 moviesViewModel: moviesViewModel,
                 genresViewModel: genresViewModel
             ));
-            present(hostVC, animated: true);
+            loadingVC.dismiss(animated: false) {
+                self.present(hostVC, animated: true);
+            }
         }
-        
-//        navigationController?.pushViewController(hostVC, animated: true);
+    }
+    
+    
+    // Fonction qui gère le scroll, et en fonction de celui-ci fait une requête pour ajouter
+    // des films dans la liste
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if (distanceFromBottom < height && !self.is_loading) {
+            self.is_loading = true;
+            self.page+=1;
+            let old_movies = self.moviesViewModel.movies;
+            self.moviesViewModel.fetchMovies(page: self.page) {
+                var total_movies: [Movie] = [];
+                total_movies.append(contentsOf: old_movies);
+                total_movies.append(contentsOf: self.moviesViewModel.movies)
+                self.moviesViewModel.movies = total_movies
+                self.tableView.reloadData()
+                self.is_loading = false;
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@
 		AEA2164727FC713A007EDB2C /* GenresViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA2164627FC713A007EDB2C /* GenresViewModel.swift */; };
 		AEA2164927FC716C007EDB2C /* ApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA2164827FC716C007EDB2C /* ApiViewModel.swift */; };
 		AEB6631B27FB80A700CB50C5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB6631A27FB80A700CB50C5 /* WebView.swift */; };
+		AEC0FF8B283395B400F1F81E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC0FF8A283395B400F1F81E /* LoadingViewController.swift */; };
 		AECCDBC527FC37CA0033FE40 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECCDBC427FC37CA0033FE40 /* Movie.swift */; };
 		AED6FFF627FB2B08000C3FF1 /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED6FFF527FB2B08000C3FF1 /* MoviesViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		AEA2164627FC713A007EDB2C /* GenresViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresViewModel.swift; sourceTree = "<group>"; };
 		AEA2164827FC716C007EDB2C /* ApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiViewModel.swift; sourceTree = "<group>"; };
 		AEB6631A27FB80A700CB50C5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		AEC0FF8A283395B400F1F81E /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		AECCDBC427FC37CA0033FE40 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		AED6FFF527FB2B08000C3FF1 /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,6 +147,7 @@
 			children = (
 				AE22A8AB27FACFF100BAE884 /* MoviesViewController.swift */,
 				AE22A8AC27FACFF100BAE884 /* MoviesViewController.xib */,
+				AEC0FF8A283395B400F1F81E /* LoadingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			files = (
 				AE8B9BAC27FB4341002E4B03 /* ImageView.swift in Sources */,
 				AE6DAD4F27F2EA0200C095A3 /* ViewController.swift in Sources */,
+				AEC0FF8B283395B400F1F81E /* LoadingViewController.swift in Sources */,
 				AED6FFF627FB2B08000C3FF1 /* MoviesViewModel.swift in Sources */,
 				AEA2164527FC70D6007EDB2C /* Genre.swift in Sources */,
 				AE6DAD4B27F2EA0200C095A3 /* AppDelegate.swift in Sources */,
