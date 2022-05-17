@@ -9,3 +9,4 @@ Native IOS Application that uses TheMovieDatabase API
 - Affichage détaillé d'un film
 - Intégration d'un lecteur intégré à l'application pour les traillers
 - Toutes les images des films sont mises en cache pour faciliter le chargement ce ceux-ci
+- L'application possède un logo (inspiré de Netflix)
